@@ -10,22 +10,24 @@ const FormInputSelect = ({
     value,
     errors,
     defaultValue,
+    validation,
 }) => {
     return (
         <FormControl fullWidth>
             <InputLabel>{label}</InputLabel>
             <Controller
                 name={name}
-
                 control={control}
                 defaultValue={defaultValue || ""}
+                rules={validation} // Apply validation rules
                 render={({ field }) => (
                     <Select
                         label={label}
                         id={name}
                         {...field}
-                        error={!!errors?.[name]}
                         className="shadow-lg"
+                        error={!!errors?.[name]} // Highlight field if validation error exists
+                        helperText={errors?.[name]?.message} // Display validation error message
                     >
                         {options?.map((option) => (
                             <MenuItem

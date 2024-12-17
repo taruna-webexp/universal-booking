@@ -1,59 +1,72 @@
 import React from "react";
+import { Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { Controller } from "react-hook-form";
 import FormInput from "../share/form/FormInput";
 import FormInputSelect from "../share/form/SelectInput";
 
 const DynamicFormInput = ({ control, field, errors }) => {
-    switch (field.type) {
+    const {
+        type,
+        name,
+        placeholder,
+        defaultValue,
+        class: fieldClass,
+        required,
+        options,
+    } = field;
+
+    // Generate validation rules
+    const validation = required
+        ? { required: `${placeholder || name} is required` }
+        : {};
+
+    switch (type) {
         case "text":
         case "number":
             return (
                 <FormInput
-                    // key={index}
                     control={control}
-                    name={field.name}
-                    value=""
-                    inputType={field.type}
-                    label={field.placeholder}
-
-                    defaultValue={field.defaultValue}
-                    placeholder={field.placeholder}
+                    name={name}
+                    inputType={type}
+                    label={placeholder}
+                    defaultValue={defaultValue}
+                    placeholder={placeholder}
                     errors={errors}
-                    className={field.class}
+                    className={fieldClass}
+                    validation={validation} // Pass validation rules
                 />
             );
 
         case "select":
             return (
                 <FormInputSelect
-                    name={field.name}
-                    value=""
+                    name={name}
                     control={control}
-                    label={field.placeholder}
-                    id={name}
-                    {...field}
-                    defaultValue={field.defaultValue}
+                    label={placeholder}
+                    defaultValue={defaultValue}
                     errors={errors}
-                    className={field.class}
-                    options={field.options}
-                    placeholder={field.placeholder} />
+                    className={fieldClass}
+                    options={options}
+                    placeholder={placeholder}
+                    validation={validation} // Pass validation rules
+                />
             );
 
         case "checkbox":
             return (
                 <Controller
-                    name={field.name}
+                    name={name}
                     control={control}
-                    errors={errors}
-                    defaultValue={field.value || false}
+                    rules={validation} // Pass validation rules
+                    defaultValue={defaultValue || false}
                     render={({ field: controllerField }) => (
-                        <div className={field.class}>
+                        <div className={fieldClass}>
                             <Checkbox {...controllerField} />
-                            <label>{field.placeholder}</label>
+                            <label>{placeholder}</label>
+                            {errors[name] && <p className="error">{errors[name].message}</p>}
                         </div>
                     )}
                 />
