@@ -7,6 +7,7 @@ const FormInputSelect = ({
     control,
     label,
     options,
+    value,
     errors,
     defaultValue,
 }) => {
@@ -15,6 +16,7 @@ const FormInputSelect = ({
             <InputLabel>{label}</InputLabel>
             <Controller
                 name={name}
+
                 control={control}
                 defaultValue={defaultValue || ""}
                 render={({ field }) => (

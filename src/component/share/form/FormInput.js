@@ -6,6 +6,7 @@ export default function FormInput({
     name,
     control,
     label,
+    errors,
     inputType,
     className,
     placeholder,
@@ -16,12 +17,14 @@ export default function FormInput({
                 name={name}
                 control={control}
                 defaultValue=""
+
                 render={({ field }) => (
                     <TextField
                         {...field}
                         InputLabelProps={{ shrink: true }}
                         fullWidth
-
+                        error={!!errors?.[name]}
+                        helperText={errors?.[name]?.message}
                         label={label}
                         placeholder={placeholder}
                         type={inputType}

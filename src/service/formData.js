@@ -24,11 +24,11 @@ export const FormData = [
                 "class": "",
                 "id": "",
                 "options": [{
-                    "value": "1",
+                    "value": "one",
                     "label": "one"
                 },
                 {
-                    "value": "2",
+                    "value": "two",
                     "label": "two"
                 },],
             }
@@ -39,7 +39,7 @@ export const FormData = [
         "description": "Step 2 description",
         "fields": [
             {
-                "name": "textFiled2",
+                "name": "stepFiled2",
                 "type": "text",
                 "step": 2,
                 "placeholder": "Full Name2",
@@ -49,7 +49,7 @@ export const FormData = [
                 "id": ""
             },
             {
-                "name": "selectFiled2",
+                "name": "stepselect2",
                 "type": "select",
                 "step": 2,
                 "placeholder": " Select 2",
@@ -58,11 +58,11 @@ export const FormData = [
                 "class": "",
                 "id": "",
                 "options": [{
-                    "value": "1",
+                    "value": "one",
                     "label": "one"
                 },
                 {
-                    "value": "2",
+                    "value": "two",
                     "label": "two"
                 },],
                 "required": true

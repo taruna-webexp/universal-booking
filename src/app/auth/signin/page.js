@@ -20,19 +20,21 @@ export default function SignIn() {
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-            <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full text-center">
+            <div className="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full text-center">
                 <h1 className="text-blue-600 text-2xl font-bold mb-6">
-                    Welcome to Universal Booking
+                    Universal Booking
                 </h1>
-                <p className="text-gray-600 text-lg mb-8">
+                <p className="text-gray-600 text-md mb-8">
                     Sign in with your Google account
                 </p>
                 <button
                     onClick={handleSignIn}
-                    className="bg-blue-600 text-white py-3 rounded-full w-full text-lg transition-all hover:bg-blue-700 flex items-center justify-center"
+                    className="flex items-center justify-center w-full py-3 text-lg font-medium text-black transition-all duration-200 bg-white border border-gray-300 rounded-md shadow-lg hover:bg-gray-100 hover:shadow-md active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                    <GoogleIcon className="mr-2" /> Sign in with Google
+                    <img src="/google.png" alt="Google logo" width={20} className="mr-3" />
+                    Sign in with Google
                 </button>
+
             </div>
         </div>
     );

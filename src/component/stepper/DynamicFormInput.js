@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 import FormInput from "../share/form/FormInput";
 import FormInputSelect from "../share/form/SelectInput";
 
-const DynamicFormInput = ({ control, field }) => {
+const DynamicFormInput = ({ control, field, errors }) => {
     switch (field.type) {
         case "text":
         case "number":
@@ -16,11 +16,13 @@ const DynamicFormInput = ({ control, field }) => {
                     // key={index}
                     control={control}
                     name={field.name}
+                    value=""
                     inputType={field.type}
                     label={field.placeholder}
+
                     defaultValue={field.defaultValue}
                     placeholder={field.placeholder}
-                    errors=""
+                    errors={errors}
                     className={field.class}
                 />
             );
@@ -29,13 +31,13 @@ const DynamicFormInput = ({ control, field }) => {
             return (
                 <FormInputSelect
                     name={field.name}
-
+                    value=""
                     control={control}
                     label={field.placeholder}
                     id={name}
                     {...field}
                     defaultValue={field.defaultValue}
-
+                    errors={errors}
                     className={field.class}
                     options={field.options}
                     placeholder={field.placeholder} />
@@ -46,6 +48,7 @@ const DynamicFormInput = ({ control, field }) => {
                 <Controller
                     name={field.name}
                     control={control}
+                    errors={errors}
                     defaultValue={field.value || false}
                     render={({ field: controllerField }) => (
                         <div className={field.class}>
