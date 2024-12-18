@@ -16,7 +16,7 @@ import { FormData } from "@/service/formData";
 export default function StepperPage() {
     const [currentStep, setCurrentStep] = useState(0);  //  current active step
     const [formValues, setFormValues] = useState({}); //  form data Store for all steps
-    console.log("currentStep", currentStep)
+    console.log("formValues", formValues)
     const {
         control,
         handleSubmit,
@@ -30,7 +30,9 @@ export default function StepperPage() {
     });
 
     const [formStep, setFormStep] = useState(FormData);
+    useEffect(() => {
 
+    }, [formValues])
     useEffect(() => {
         const updateStepData = {
             heading: "Step 3",
@@ -42,24 +44,38 @@ export default function StepperPage() {
 
     const isStepOptional = (step) => step === 1;
 
+
+
+    useEffect(() => {
+        console.log("Updated formValues", formValues); // Log whenever formValues changes
+    }, [formValues]); // This will trigger when formValues is updated
+
+
     const handleNext = async () => {
-        const isTrigger = await trigger(); // Validate current step fields
-        if (isTrigger) {
-            const currentStepData = watch(); // Get current step data
-            console.log("currentStepData", currentStepData);
-            setFormValues((prev) => ({ ...prev, [currentStep]: currentStepData })); // Save current step data
-            setCurrentStep((prev) => prev + 1); // Move to next step
-            reset(formValues[currentStep + 1] || {}); // Reset form for next step
+        const isValid = await trigger(); // Validate current step field
+        if (isValid) {
+            const currentStepData = watch(); //   current steps data
+            setFormValues((prev) => ({
+                ...prev,
+                [currentStep]: currentStepData, // store current steps data
+            }));
+            setCurrentStep((prev) => prev + 1); //  next step
+
+            // Restore data for the next step, and clear the form if  data not exists
+            setTimeout(() => reset(formValues[currentStep + 1] || {}), 0);
         }
-
-
     };
 
     const handleBack = () => {
-        const currentStepData = watch();
-        setFormValues((prev) => ({ ...prev, [currentStep]: currentStepData }));
-        setCurrentStep((prev) => prev - 1);
-        reset(formValues[currentStep - 1] || {});
+        const currentStepData = watch(); //current steps data
+        setFormValues((prev) => ({
+            ...prev,
+            [currentStep]: currentStepData,
+        }));
+        setCurrentStep((prev) => prev - 1); // back to the previous step
+
+        // Restore data for the previous step
+        setTimeout(() => reset(formValues[currentStep - 1] || {}), 0);
     };
 
     const handleSkip = () => {
@@ -82,7 +98,7 @@ export default function StepperPage() {
     };
 
     return (
-        <Container maxWidth="md" className="mt-12">
+        <Container maxWidth="md " className="mt-12">
             <Box sx={{ width: "100%" }}>
                 <Stepper activeStep={currentStep}>
                     {formStep?.map((step, index) => {
@@ -135,9 +151,9 @@ export default function StepperPage() {
                                         >
                                             Confirm your Details
                                         </Typography>
-                                        {Object.entries(formValues).map(([step, values], idx) => {
+                                        {Object.entries(formValues).slice(0, 2).map(([step, values], idx) => {
 
-
+                                            console.log(" Object", Object.entries(formValues).pop());
                                             return (
                                                 Object.entries(values).length > 0 &&
                                                 <Box key={idx} sx={{ my: 4 }}>

@@ -3,14 +3,14 @@ import { signIn, useSession } from "next-auth/react";
 import GoogleIcon from '@mui/icons-material/Google';
 import { successMsg } from "@/component/toaster/msg/toaster";
 import { useEffect } from "react";
-
 export default function SignIn() {
     const { status } = useSession();
 
+
     useEffect(() => {
-        if (status == "authenticated") {
+        if (status === "authenticated") {
 
-
+            window.history.back()
         }
     }, [status]);
 
