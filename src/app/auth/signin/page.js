@@ -9,8 +9,8 @@ export default function SignIn() {
 
     useEffect(() => {
         if (status == "authenticated") {
-            // Display success message when the user is authenticated
-            successMsg("Successfully signed in!");
+
+
         }
     }, [status]);
 
