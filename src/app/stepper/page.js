@@ -98,7 +98,7 @@ export default function StepperPage() {
     };
 
     return (
-        <Container maxWidth="md " className="mt-12">
+        <Container maxWidth="xl" className="mt-12" >
             <Box sx={{ width: "100%" }}>
                 <Stepper activeStep={currentStep}>
                     {formStep?.map((step, index) => {
