@@ -87,7 +87,7 @@ export default function StepperPage() {
 
     /// on submit handler
     const onSubmit = (data) => {
-        console.log("Final Form Data:", { ...formValues, [currentStep]: data });
+        console.log("data:", { ...formValues, [currentStep]: data });
         successMsg("Your form was successfully submitted!");
     };
 
@@ -141,47 +141,47 @@ export default function StepperPage() {
                                         />
                                     </Grid>
                                 ))}
-
-                                {currentStep === formStep.length - 1 && (
-                                    <Grid item xs={12}>
-                                        <Typography
-                                            variant="h4"
-                                            gutterBottom
-                                            className="text-blue-500 text-center"
-                                        >
-                                            Confirm your Details
-                                        </Typography>
-                                        {Object.entries(formValues).slice(0, 2).map(([step, values], idx) => {
-
-                                            console.log(" Object", Object.entries(formValues).pop());
-                                            return (
-                                                Object.entries(values).length > 0 &&
-                                                <Box key={idx} sx={{ my: 4 }}>
-                                                    <Card elevation={3} sx={{ p: 2 }}>
-                                                        <CardContent>
-                                                            <Typography variant="h6" sx={{ mb: 1 }}>
-                                                                Step {parseInt(step) + 1} Data
-                                                            </Typography>
-                                                            <Divider sx={{ mb: 3 }} />
-                                                            <Grid container spacing={2}>
-                                                                {Object.entries(values).map(
-                                                                    ([fieldName, fieldValue], fieldIdx) => (
-                                                                        <Grid item xs={12} sm={6} key={fieldIdx}>
-                                                                            <Typography variant="body1">
-                                                                                <strong>{fieldName}:</strong> {fieldValue}
-                                                                            </Typography>
-                                                                        </Grid>
-                                                                    )
-                                                                )}
-                                                            </Grid>
-                                                        </CardContent>
-                                                    </Card>
-                                                </Box>
-                                            )
-                                        })}
-                                    </Grid>
-                                )}
                             </Grid>
+
+                            {currentStep === formStep.length - 1 && (
+                                <Grid item xs={12}>
+                                    <Typography
+                                        variant="h4"
+                                        gutterBottom
+                                        className="text-blue-500 text-center"
+                                    >
+                                        Confirm your Details
+                                    </Typography>
+                                    {Object.entries(formValues).slice(0, 2).map(([step, values], idx) => {
+
+                                        console.log(" Object", Object.entries(formValues).pop());
+                                        return (
+                                            Object.entries(values).length > 0 &&
+                                            <Box key={idx} sx={{ my: 4 }}>
+                                                <Card elevation={3} sx={{ p: 2 }}>
+                                                    <CardContent>
+                                                        <Typography variant="h6" sx={{ mb: 1 }}>
+                                                            Step {parseInt(step) + 1} Data
+                                                        </Typography>
+                                                        <Divider sx={{ mb: 3 }} />
+                                                        <Grid container spacing={2}>
+                                                            {Object.entries(values).map(
+                                                                ([fieldName, fieldValue], fieldIdx) => (
+                                                                    <Grid item xs={12} sm={6} key={fieldIdx}>
+                                                                        <Typography variant="body1">
+                                                                            <strong>{fieldName}:</strong> {fieldValue}
+                                                                        </Typography>
+                                                                    </Grid>
+                                                                )
+                                                            )}
+                                                        </Grid>
+                                                    </CardContent>
+                                                </Card>
+                                            </Box>
+                                        )
+                                    })}
+                                </Grid>
+                            )}
 
                             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                                 <Button
