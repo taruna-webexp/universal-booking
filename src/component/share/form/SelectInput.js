@@ -7,7 +7,6 @@ const FormInputSelect = ({
     control,
     label,
     options,
-    value,
     errors,
     defaultValue,
     validation,

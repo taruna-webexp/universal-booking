@@ -81,20 +81,8 @@ export const FormData = [
                 "placeholder": "Pick date & time",
                 "value": "",
                 "slot": {
-                    "2024-12-18": {
-                        "fullDayBooked": false,
-                        "slots": [
-                            { "time": "09:00", "available": true },
-                            { "time": "10:00", "available": false },
-                            { "time": "11:00", "available": true },
-                            { "time": "12:00", "available": true },
 
-                        ]
-                    },
-                    "2024-12-19": {
-                        "fullDayBooked": true,
-                        "slots": []
-                    },
+
                     "2024-12-20": {
                         "fullDayBooked": false,
                         "slots": [
@@ -118,7 +106,72 @@ export const FormData = [
                     "2024-12-22": {
                         "fullDayBooked": true,
                         "slots": []
-                    }
+                    }, "2024-12-23": {
+                        "fullDayBooked": false,
+                        "slots": [
+                            { "time": "09:00", "available": true },
+                            { "time": "10:00", "available": false },
+                            { "time": "11:00", "available": true },
+                            { "time": "12:00", "available": true },
+
+                        ]
+                    },
+                    "2024-12-24": {
+                        "fullDayBooked": false,
+                        "slots": [
+                            { "time": "09:00", "available": true },
+                            { "time": "10:00", "available": false },
+
+
+                        ]
+                    },
+                    "2024-12-25": {
+                        "fullDayBooked": true,
+                        "slots": []
+                    },
+
+                    "2024-12-26": {
+                        "fullDayBooked": false,
+                        "slots": [
+                            { "time": "09:00", "available": true },
+                            { "time": "10:00", "available": false },
+                            { "time": "11:00", "available": true },
+                            { "time": "12:00", "available": true },
+
+                        ]
+                    },
+
+                    "2024-12-27": {
+                        "fullDayBooked": false,
+                        "slots": [
+                            { "time": "09:00", "available": true },
+                            { "time": "11:00", "available": true },
+                            { "time": "12:00", "available": true },
+                            { "time": "01:00", "available": true },
+                            { "time": "18:00", "available": true },
+                            { "time": "2:00", "available": true },
+                        ]
+                    },
+
+                    "2024-12-29": {
+                        "fullDayBooked": true,
+                        "slots": []
+                    },
+                    "2025-01-01": {
+                        "fullDayBooked": false,
+                        "slots": [
+                            { "time": "09:00", "available": true },
+                            { "time": "11:00", "available": true },
+                            { "time": "12:00", "available": true },
+                            { "time": "01:00", "available": true },
+                            { "time": "18:00", "available": true },
+                            { "time": "2:00", "available": true },
+                        ]
+                    },
+                    "2025-01-02": {
+                        "fullDayBooked": true,
+                        "slots": []
+                    },
                 },
                 "subfield": [{
                     "name": "fullName",
