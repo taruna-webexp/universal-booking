@@ -43,7 +43,8 @@ const FormInputSelect = ({
             />
 
             {errors?.[name] && (
-                <p className="text-red-600 text-xs">{errors[name]?.message}</p>
+                <p style={{ color: "#c22626" }}>{errors[name]?.message}</p>
+
             )}
         </FormControl>
     );

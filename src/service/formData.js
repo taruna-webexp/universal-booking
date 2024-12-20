@@ -68,5 +68,97 @@ export const FormData = [
                 "required": true
             }
         ]
-    }
+    }, {
+        "heading": "Step 3",
+        "description": "Step 3 description",
+        "fields": [
+            {
+                "name": "dateTime",
+                "type": "calendar",
+                "step": 3,
+                "label": "Pick date & time",
+                "defaultValue": "",
+                "placeholder": "Pick date & time",
+                "value": "",
+                "slot": {
+                    "2024-12-18": {
+                        "fullDayBooked": false,
+                        "slots": [
+                            { "time": "09:00", "available": true },
+                            { "time": "10:00", "available": false },
+                            { "time": "11:00", "available": true },
+                            { "time": "12:00", "available": true },
+
+                        ]
+                    },
+                    "2024-12-19": {
+                        "fullDayBooked": true,
+                        "slots": []
+                    },
+                    "2024-12-20": {
+                        "fullDayBooked": false,
+                        "slots": [
+                            { "time": "09:00", "available": true },
+
+                            { "time": "16:00", "available": true },
+                            { "time": "17:00", "available": false }
+                        ]
+                    },
+                    "2024-12-21": {
+                        "fullDayBooked": false,
+                        "slots": [
+                            { "time": "09:00", "available": true },
+                            { "time": "10:00", "available": true },
+                            { "time": "11:00", "available": true },
+
+                            { "time": "16:00", "available": true },
+                            { "time": "17:00", "available": true }
+                        ]
+                    },
+                    "2024-12-22": {
+                        "fullDayBooked": true,
+                        "slots": []
+                    }
+                },
+                "subfield": [{
+                    "name": "fullName",
+                    "type": "text",
+                    "step": 3,
+                    "defaultValue": "",
+                    "placeholder": "Full Name",
+                    "value": "",
+                    "class": "",
+                    "id": "",
+                    "required": true
+                },
+                {
+                    "name": "emailFiled",
+                    "type": "email",
+                    "step": 3,
+                    "defaultValue": "",
+                    "placeholder": "Enter email",
+                    "value": "",
+                    "class": "",
+                    "id": "",
+                    "required": true
+                },
+                {
+                    "name": "phone",
+                    "type": "number",
+                    "step": 3,
+                    "defaultValue": "",
+                    "placeholder": "Enter number",
+                    "value": "",
+                    "class": "",
+                    "id": "",
+                    "required": true
+                },],
+                "class": "",
+                "id": "",
+                "required": true
+            },
+
+
+        ]
+    },
 ]

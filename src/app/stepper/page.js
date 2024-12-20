@@ -16,7 +16,6 @@ import { FormData } from "@/service/formData";
 export default function StepperPage() {
     const [currentStep, setCurrentStep] = useState(0);  //  current active step
     const [formValues, setFormValues] = useState({}); //  form data Store for all steps
-    console.log("formValues", formValues)
     const {
         control,
         handleSubmit,
@@ -35,8 +34,8 @@ export default function StepperPage() {
     }, [formValues])
     useEffect(() => {
         const updateStepData = {
-            heading: "Step 3",
-            description: "Step 3 description",
+            heading: "Step 4",
+            description: "Step 4 description",
             fields: [{ name: "summary", label: "Summary", type: "textarea" }],
         };
         setFormStep((prev) => [...prev, updateStepData]);
@@ -47,7 +46,6 @@ export default function StepperPage() {
 
 
     useEffect(() => {
-        console.log("Updated formValues", formValues); // Log whenever formValues changes
     }, [formValues]); // This will trigger when formValues is updated
 
 
@@ -67,16 +65,50 @@ export default function StepperPage() {
     };
 
     const handleBack = () => {
-        const currentStepData = watch(); //current steps data
+        const currentStepData = watch(); // Current step data
+        // Reset the date/time field (example field name: 'selectedDate')
+        if (currentStep === 1) {
+            currentStepData['selectedDate'] = null; // Reset the date field
+        }
+
         setFormValues((prev) => ({
             ...prev,
             [currentStep]: currentStepData,
         }));
-        setCurrentStep((prev) => prev - 1); // back to the previous step
+        setCurrentStep((prev) => prev - 1); // Navigate to the previous step
+
+
+
+
+        // Process the object to transform the dateTime
+
+
+        // Process the object to transform the dateTime field
+        if (formValues["2"] && formValues["2"].dateTime) {
+            const dateTime = formValues["2"].dateTime;
+
+            // Parse the date and time
+            const [date, time] = dateTime.split(", ");
+            const startDate = new Date(`${date}T${time}:00Z`);
+            const endDate = new Date(startDate);
+            endDate.setMinutes(startDate.getMinutes() + 30);
+
+            // Update the dateTime field to be an object
+            formValues["2"].dateTime = {
+                id: `${date}-${time.replace(":", "-")}`,
+                startTime: startDate.toISOString(),
+                endTime: endDate.toISOString()
+            };
+        }
+
+
+
+
 
         // Restore data for the previous step
         setTimeout(() => reset(formValues[currentStep - 1] || {}), 0);
     };
+
 
     const handleSkip = () => {
         if (!isStepOptional(currentStep)) {
@@ -87,7 +119,11 @@ export default function StepperPage() {
 
     /// on submit handler
     const onSubmit = (data) => {
-        console.log("data:", { ...formValues, [currentStep]: data });
+        const dataForm = { ...formValues, [currentStep]: data }
+        const lastKey = Math.max(...Object.keys(dataForm).map(Number)).toString();
+        // Delete the last index
+        delete dataForm[lastKey];
+        console.log("data:", dataForm);
         successMsg("Your form was successfully submitted!");
     };
 
@@ -96,7 +132,6 @@ export default function StepperPage() {
         setFormValues({});
         reset({});
     };
-
     return (
         <Container maxWidth="xl" className="mt-12" >
             <Box sx={{ width: "100%" }}>
@@ -104,11 +139,11 @@ export default function StepperPage() {
                     {formStep?.map((step, index) => {
                         const stepProps = {};
                         const labelProps = {};
-                        if (isStepOptional(index)) {
-                            labelProps.optional = (
-                                <Typography variant="caption">Optional</Typography>
-                            );
-                        }
+                        // if (isStepOptional(index)) {
+                        //     labelProps.optional = (
+                        //         <Typography variant="caption">Optional</Typography>
+                        //     );
+                        // }
 
                         return (
                             <Step key={step.heading} {...stepProps}>
@@ -133,7 +168,7 @@ export default function StepperPage() {
                         <form onSubmit={handleSubmit(onSubmit)} className="my-12">
                             <Grid container maxWidth="lg" spacing={4}>
                                 {formStep[currentStep]?.fields?.map((field, index) => (
-                                    <Grid item xs={12} sm={6} key={index} className="mt-4">
+                                    <Grid item xs={12} sm={12} key={index} className="mt-4">
                                         <DynamicFormInput
                                             control={control}
                                             field={field}
@@ -152,7 +187,7 @@ export default function StepperPage() {
                                     >
                                         Confirm your Details
                                     </Typography>
-                                    {Object.entries(formValues).slice(0, 2).map(([step, values], idx) => {
+                                    {Object.entries(formValues).slice(0, 3).map(([step, values], idx) => {
 
                                         console.log(" Object", Object.entries(formValues).pop());
                                         return (
@@ -166,13 +201,18 @@ export default function StepperPage() {
                                                         <Divider sx={{ mb: 3 }} />
                                                         <Grid container spacing={2}>
                                                             {Object.entries(values).map(
-                                                                ([fieldName, fieldValue], fieldIdx) => (
-                                                                    <Grid item xs={12} sm={6} key={fieldIdx}>
-                                                                        <Typography variant="body1">
-                                                                            <strong>{fieldName}:</strong> {fieldValue}
-                                                                        </Typography>
-                                                                    </Grid>
-                                                                )
+                                                                ([fieldName, fieldValue], fieldIdx) => {
+                                                                    console.log("fieldName", fieldName);
+                                                                    console.log("fieldValue", fieldValue);
+
+                                                                    return (
+                                                                        <Grid item xs={12} sm={6} key={fieldIdx}>
+                                                                            <Typography variant="body1">
+                                                                                <strong>{fieldName}:</strong> {fieldValue}
+                                                                            </Typography>
+                                                                        </Grid>
+                                                                    )
+                                                                }
                                                             )}
                                                         </Grid>
                                                     </CardContent>

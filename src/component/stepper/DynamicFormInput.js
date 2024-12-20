@@ -6,8 +6,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormInput from "../share/form/FormInput";
 import FormInputSelect from "../share/form/SelectInput";
+import DateTimePickerController from "../share/form/DateTime";
 
 const DynamicFormInput = ({ control, field, errors }) => {
+    console.log("fieldfield", field);
     const {
         type,
         name,
@@ -16,6 +18,8 @@ const DynamicFormInput = ({ control, field, errors }) => {
         class: fieldClass,
         required,
         options,
+        slot,
+        subfield,
     } = field;
 
     // Generate validation rules
@@ -26,6 +30,7 @@ const DynamicFormInput = ({ control, field, errors }) => {
     switch (type) {
         case "text":
         case "number":
+        case "email":
             return (
                 <FormInput
                     control={control}
@@ -52,6 +57,20 @@ const DynamicFormInput = ({ control, field, errors }) => {
                     options={options}
                     placeholder={placeholder}
                     validation={validation} // Pass validation rules
+                />
+            );
+        case "calendar":
+            return (
+                <DateTimePickerController
+                    name={name}
+                    control={control}
+                    label={placeholder}
+                    placeholder={placeholder}
+                    slot={slot}
+                    subfield={subfield}
+                    errors={errors}
+                    validation={validation} // Pass validation rules
+
                 />
             );
 

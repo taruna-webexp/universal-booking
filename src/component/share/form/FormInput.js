@@ -13,6 +13,7 @@ export default function FormInput({
     validation, // Accept validation rules as a prop
 }) {
     return (
+
         <FormControl fullWidth className={className}>
             <Controller
                 name={name}
