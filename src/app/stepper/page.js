@@ -12,8 +12,10 @@ import { useForm } from "react-hook-form";
 import DynamicFormInput from "@/component/stepper/DynamicFormInput";
 import { errorMsg, successMsg } from "@/component/toaster/msg/toaster";
 import { FormData } from "@/service/formData";
+import { useRouter } from "next/navigation";
 
 export default function StepperPage() {
+    const router = useRouter()
     const [currentStep, setCurrentStep] = useState(0);  //  current active step
     const [formValues, setFormValues] = useState({}); //  form data Store for all steps
     const {
@@ -66,44 +68,12 @@ export default function StepperPage() {
 
     const handleBack = () => {
         const currentStepData = watch(); // Current step data
-        // Reset the date/time field (example field name: 'selectedDate')
-        if (currentStep === 1) {
-            currentStepData['selectedDate'] = null; // Reset the date field
-        }
 
         setFormValues((prev) => ({
             ...prev,
             [currentStep]: currentStepData,
         }));
         setCurrentStep((prev) => prev - 1); // Navigate to the previous step
-
-
-
-
-        // Process the object to transform the dateTime
-
-
-        // Process the object to transform the dateTime field
-        if (formValues["2"] && formValues["2"].dateTime) {
-            const dateTime = formValues["2"].dateTime;
-
-            // Parse the date and time
-            const [date, time] = dateTime.split(", ");
-            const startDate = new Date(`${date}T${time}:00Z`);
-            const endDate = new Date(startDate);
-            endDate.setMinutes(startDate.getMinutes() + 30);
-
-            // Update the dateTime field to be an object
-            formValues["2"].dateTime = {
-                id: `${date}-${time.replace(":", "-")}`,
-                startTime: startDate.toISOString(),
-                endTime: endDate.toISOString()
-            };
-        }
-
-
-
-
 
         // Restore data for the previous step
         setTimeout(() => reset(formValues[currentStep - 1] || {}), 0);
@@ -123,8 +93,8 @@ export default function StepperPage() {
         const lastKey = Math.max(...Object.keys(dataForm).map(Number)).toString();
         // Delete the last index
         delete dataForm[lastKey];
-        console.log("data:", dataForm);
         successMsg("Your form was successfully submitted!");
+        router.push("/stepper")
     };
 
     const handleReset = () => {
@@ -188,8 +158,7 @@ export default function StepperPage() {
                                         Confirm your Details
                                     </Typography>
                                     {Object.entries(formValues).slice(0, 3).map(([step, values], idx) => {
-
-                                        console.log(" Object", Object.entries(formValues).pop());
+                                        console.log("myvalue", values);
                                         return (
                                             Object.entries(values).length > 0 &&
                                             <Box key={idx} sx={{ my: 4 }}>

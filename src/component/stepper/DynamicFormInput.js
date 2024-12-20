@@ -9,7 +9,6 @@ import FormInputSelect from "../share/form/SelectInput";
 import DateTimePickerController from "../share/form/DateTime";
 
 const DynamicFormInput = ({ control, field, errors }) => {
-    console.log("fieldfield", field);
     const {
         type,
         name,
