@@ -12,12 +12,13 @@ const DynamicFormInput = ({ control, field, errors }) => {
     const {
         type,
         name,
+        label,
         placeholder,
         defaultValue,
         class: fieldClass,
         required,
         options,
-        slot,
+        slots,
         subfield,
     } = field;
 
@@ -35,7 +36,7 @@ const DynamicFormInput = ({ control, field, errors }) => {
                     control={control}
                     name={name}
                     inputType={type}
-                    label={placeholder}
+                    label={label}
                     defaultValue={defaultValue}
                     placeholder={placeholder}
                     errors={errors}
@@ -49,7 +50,7 @@ const DynamicFormInput = ({ control, field, errors }) => {
                 <FormInputSelect
                     name={name}
                     control={control}
-                    label={placeholder}
+                    label={label}
                     defaultValue={defaultValue}
                     errors={errors}
                     className={fieldClass}
@@ -63,9 +64,9 @@ const DynamicFormInput = ({ control, field, errors }) => {
                 <DateTimePickerController
                     name={name}
                     control={control}
-                    label={placeholder}
+                    label={label}
                     placeholder={placeholder}
-                    slot={slot}
+                    slots={slots}
                     subfield={subfield}
                     errors={errors}
                     validation={validation} // Pass validation rules
@@ -83,7 +84,7 @@ const DynamicFormInput = ({ control, field, errors }) => {
                     render={({ field: controllerField }) => (
                         <div className={fieldClass}>
                             <Checkbox {...controllerField} />
-                            <label>{placeholder}</label>
+                            <label>{label}</label>
                             {errors[name] && <p className="error">{errors[name].message}</p>}
                         </div>
                     )}

@@ -5,37 +5,57 @@ import { ScheduleMeeting } from "react-schedule-meeting";
 import { Controller } from "react-hook-form";
 import { FormControl } from "@mui/material";
 
-const DateTimePickerController = ({ name, control, slot, errors, validation }) => {
-    // Generate default slots for dates not in the API data
+const DateTimePickerController = ({ name, control, slots, errors, validation }) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize to midnight for comparison
+    const currentTime = new Date();
+
+    const combineDateAndTime = (date, time) => {
+        const [hours, minutes] = time.split(":").map(Number);
+        const combined = new Date(date);
+        combined.setHours(hours, minutes, 0, 0);
+        return combined;
+    };
+
+    const transformSlots = (slots) =>
+        slots
+            ?.filter((slot) => slot.enable)
+            ?.map((slot) => {
+                const start = combineDateAndTime(today, slot.startTime);
+                const end = combineDateAndTime(today, slot.endTime);
+                if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+                    console.error(`Invalid time value: start=${slot.startTime}, end=${slot.endTime}`);
+                    return null;
+                }
+                return {
+                    id: `${today.toISOString().split("T")[0]}-${slot.slotId}`,
+                    startTime: start,
+                    endTime: end,
+                };
+            })
+            .filter(Boolean) || [];
+
     const generateDefaultSlots = (date) => {
         return Array.from({ length: 12 }, (_, i) => {
             const hour = i + 1;
             const time = hour < 10 ? `0${hour}:00` : `${hour}:00`;
-            const start = new Date(`${date}T${time}:00`);
+            const start = combineDateAndTime(date, time);
             const end = new Date(start.getTime() + 60 * 60000); // Add 1 hour
-            return { id: `${date}-${time}`, startTime: start, endTime: end, available: true };
+            return { id: `${date.toISOString().split("T")[0]}-${time}`, startTime: start, endTime: end, available: true };
         });
     };
 
-    // Transform slot data into available timeslots
-    const availableTimeslots = Object.entries(slot).flatMap(([date, { fullDayBooked, slots }]) => {
-        if (fullDayBooked) return [];
-        return slots
-            .filter((s) => s.available)
-            .map((s) => {
-                const start = new Date(`${date}T${s.time}:00Z`);
-                return { id: `${date}-${s.time}`, startTime: start, endTime: new Date(start.getTime() + 30 * 60000) };
-            });
-    });
-
-    // Add future dates with default slots for the next 1 year
-    const today = new Date();
     const futureDatesWithDefaults = Array.from({ length: 365 }, (_, i) => {
         const date = new Date(today);
         date.setDate(today.getDate() + i);
-        const dateString = date.toISOString().split("T")[0];
-        return slot[dateString] ? [] : generateDefaultSlots(dateString);
+        return i === 0 ? [] : generateDefaultSlots(date); // Exclude today's default slots
     }).flat();
+
+    const availableTimeslots = transformSlots(slots).filter(
+        (slot) =>
+            slot.startTime > currentTime || // Exclude past slots today
+            slot.startTime.toISOString().split("T")[0] !== today.toISOString().split("T")[0]
+    );
 
     const allTimeslots = [...availableTimeslots, ...futureDatesWithDefaults];
 
@@ -52,8 +72,13 @@ const DateTimePickerController = ({ name, control, slot, errors, validation }) =
                         eventDurationInMinutes={30}
                         availableTimeslots={allTimeslots}
                         onStartTimeSelect={(selectedSlot) => {
-                            const date = selectedSlot.startTime.toISOString().split("T")[0];
-                            const time = selectedSlot.startTime.toISOString().split("T")[1].substring(0, 5);
+                            const istDate = new Date(selectedSlot.startTime);
+                            istDate.setMinutes(istDate.getMinutes() + istDate.getTimezoneOffset() + 330); // Convert to IST (+5:30)
+
+                            const date = istDate.toISOString().split("T")[0]; // Extract date in YYYY-MM-DD format
+                            const time = istDate.toTimeString().split(" ")[0].substring(0, 5); // Extract time in HH:MM format
+
+                            console.log("datetime (IST):", `${date}, ${time}`);
                             onChange(`${date}, ${time}`);
                         }}
                     />

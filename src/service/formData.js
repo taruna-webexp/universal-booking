@@ -7,8 +7,10 @@ export const FormData = [
                 "name": "textFiled",
                 "type": "text",
                 "step": 1,
+                "label": "First Name",
+
                 "defaultValue": "",
-                "placeholder": "Full Name",
+                "placeholder": " Name",
                 "value": "",
                 "class": "",
                 "id": "",
@@ -18,19 +20,23 @@ export const FormData = [
                 "name": "selectFiled",
                 "type": "select",
                 "step": 1,
+                "label": "Select Gender",
+
                 "defaultValue": "",
-                "placeholder": " Select",
+                "placeholder": "Gender",
                 "value": "",
                 "class": "",
                 "id": "",
-                "options": [{
-                    "value": "one",
-                    "label": "one"
-                },
-                {
-                    "value": "two",
-                    "label": "two"
-                },],
+                "options": [
+                    {
+                        "value": "men",
+                        "label": "Men"
+                    },
+                    {
+                        "value": "women",
+                        "label": "Women"
+                    }
+                ]
             }
         ]
     },
@@ -42,7 +48,9 @@ export const FormData = [
                 "name": "stepFiled2",
                 "type": "text",
                 "step": 2,
-                "placeholder": "Full Name2",
+                "label": "Last Name",
+
+                "placeholder": "Last Name",
                 "defaultValue": "",
                 "value": "",
                 "class": "",
@@ -52,23 +60,28 @@ export const FormData = [
                 "name": "stepselect2",
                 "type": "select",
                 "step": 2,
-                "placeholder": " Select 2",
+                "label": "Select your seat",
+
+                "placeholder": "Select 2",
                 "defaultValue": "",
                 "value": "",
                 "class": "",
                 "id": "",
-                "options": [{
-                    "value": "one",
-                    "label": "one"
-                },
-                {
-                    "value": "two",
-                    "label": "two"
-                },],
+                "options": [
+                    {
+                        "value": "one",
+                        "label": "one"
+                    },
+                    {
+                        "value": "two",
+                        "label": "two"
+                    }
+                ],
                 "required": true
             }
         ]
-    }, {
+    },
+    {
         "heading": "Step 3",
         "description": "Step 3 description",
         "fields": [
@@ -76,142 +89,23 @@ export const FormData = [
                 "name": "dateTime",
                 "type": "calendar",
                 "step": 3,
-                "label": "Pick date & time",
+                "label": " Date & Time",
                 "defaultValue": "",
                 "placeholder": "Pick date & time",
                 "value": "",
-                "slot": {
+                "slots": [
+                    {
+                        "slotId": "slot1",
+                        "enable": true,
+                        "startTime": "17:00",
+                        "endTime": "19:00"
+                    }
 
-
-                    "2024-12-20": {
-                        "fullDayBooked": false,
-                        "slots": [
-                            { "time": "09:00", "available": true },
-
-                            { "time": "16:00", "available": true },
-                            { "time": "17:00", "available": false }
-                        ]
-                    },
-                    "2024-12-21": {
-                        "fullDayBooked": false,
-                        "slots": [
-                            { "time": "09:00", "available": true },
-                            { "time": "10:00", "available": true },
-                            { "time": "11:00", "available": true },
-
-                            { "time": "16:00", "available": true },
-                            { "time": "17:00", "available": true }
-                        ]
-                    },
-                    "2024-12-22": {
-                        "fullDayBooked": true,
-                        "slots": []
-                    }, "2024-12-23": {
-                        "fullDayBooked": false,
-                        "slots": [
-                            { "time": "09:00", "available": true },
-                            { "time": "10:00", "available": false },
-                            { "time": "11:00", "available": true },
-                            { "time": "12:00", "available": true },
-
-                        ]
-                    },
-                    "2024-12-24": {
-                        "fullDayBooked": false,
-                        "slots": [
-                            { "time": "09:00", "available": true },
-                            { "time": "10:00", "available": false },
-
-
-                        ]
-                    },
-                    "2024-12-25": {
-                        "fullDayBooked": true,
-                        "slots": []
-                    },
-
-                    "2024-12-26": {
-                        "fullDayBooked": false,
-                        "slots": [
-                            { "time": "09:00", "available": true },
-                            { "time": "10:00", "available": false },
-                            { "time": "11:00", "available": true },
-                            { "time": "12:00", "available": true },
-
-                        ]
-                    },
-
-                    "2024-12-27": {
-                        "fullDayBooked": false,
-                        "slots": [
-                            { "time": "09:00", "available": true },
-                            { "time": "11:00", "available": true },
-                            { "time": "12:00", "available": true },
-                            { "time": "01:00", "available": true },
-                            { "time": "18:00", "available": true },
-                            { "time": "2:00", "available": true },
-                        ]
-                    },
-
-                    "2024-12-29": {
-                        "fullDayBooked": true,
-                        "slots": []
-                    },
-                    "2025-01-01": {
-                        "fullDayBooked": false,
-                        "slots": [
-                            { "time": "09:00", "available": true },
-                            { "time": "11:00", "available": true },
-                            { "time": "12:00", "available": true },
-                            { "time": "01:00", "available": true },
-                            { "time": "18:00", "available": true },
-                            { "time": "2:00", "available": true },
-                        ]
-                    },
-                    "2025-01-02": {
-                        "fullDayBooked": true,
-                        "slots": []
-                    },
-                },
-                "subfield": [{
-                    "name": "fullName",
-                    "type": "text",
-                    "step": 3,
-                    "defaultValue": "",
-                    "placeholder": "Full Name",
-                    "value": "",
-                    "class": "",
-                    "id": "",
-                    "required": true
-                },
-                {
-                    "name": "emailFiled",
-                    "type": "email",
-                    "step": 3,
-                    "defaultValue": "",
-                    "placeholder": "Enter email",
-                    "value": "",
-                    "class": "",
-                    "id": "",
-                    "required": true
-                },
-                {
-                    "name": "phone",
-                    "type": "number",
-                    "step": 3,
-                    "defaultValue": "",
-                    "placeholder": "Enter number",
-                    "value": "",
-                    "class": "",
-                    "id": "",
-                    "required": true
-                },],
+                ],
                 "class": "",
                 "id": "",
-                "required": true
-            },
-
-
+                "required": false
+            }
         ]
-    },
-]
+    }
+];
