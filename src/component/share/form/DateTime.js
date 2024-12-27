@@ -36,7 +36,7 @@ const DateTimePickerController = ({ name, control, slots, errors, validation }) 
             .filter(Boolean) || [];
 
     const generateDefaultSlots = (date) => {
-        return Array.from({ length: 12 }, (_, i) => {
+        return Array.from({ length: 1 }, (_, i) => {
             const hour = i + 1;
             const time = hour < 10 ? `0${hour}:00` : `${hour}:00`;
             const start = combineDateAndTime(date, time);
@@ -45,7 +45,7 @@ const DateTimePickerController = ({ name, control, slots, errors, validation }) 
         });
     };
 
-    const futureDatesWithDefaults = Array.from({ length: 365 }, (_, i) => {
+    const futureDatesWithDefaults = Array.from({ length: 30 }, (_, i) => {
         const date = new Date(today);
         date.setDate(today.getDate() + i);
         return i === 0 ? [] : generateDefaultSlots(date); // Exclude today's default slots

@@ -7,12 +7,14 @@ import MenuItem from "@mui/material/MenuItem";
 import FormInput from "../share/form/FormInput";
 import FormInputSelect from "../share/form/SelectInput";
 import DateTimePickerController from "../share/form/DateTime";
+import StripePayment from "./StripePayment";
 
-const DynamicFormInput = ({ control, field, errors }) => {
+const DynamicFormInput = ({ control, field, errors, setPayment }) => {
     const {
         type,
         name,
         label,
+
         placeholder,
         defaultValue,
         class: fieldClass,
@@ -72,6 +74,10 @@ const DynamicFormInput = ({ control, field, errors }) => {
                     validation={validation} // Pass validation rules
 
                 />
+            );
+        case "paymentMode":
+            return (
+                <StripePayment setPayment={setPayment} />
             );
 
         case "checkbox":

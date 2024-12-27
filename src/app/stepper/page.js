@@ -18,12 +18,12 @@ import { useForm } from "react-hook-form";
 import DynamicFormInput from "@/component/stepper/DynamicFormInput";
 import { successMsg, errorMsg } from "@/component/toaster/msg/toaster";
 import { FormData } from "@/service/formData";
-import { useRouter } from "next/navigation";
 
 export default function StepperPage() {
     const [currentStep, setCurrentStep] = useState(0); // Active step
     const [formValues, setFormValues] = useState({}); // Form data for all steps
     const [formStep, setFormStep] = useState(FormData); // Steps configuration
+    const [isPayment, setPayment] = useState(false)
     const {
         control,
         handleSubmit,
@@ -38,12 +38,13 @@ export default function StepperPage() {
 
     // Add a new dynamic step
     useEffect(() => {
-        const updateStepData = {
-            heading: "Step 4",
-            description: "Step 4 description",
-            fields: [{ name: "summary", label: "Summary", type: "textarea" }],
-        };
-        setFormStep((prev) => [...prev, updateStepData]);
+        // const updateStepData = {
+        //     heading: "Step 4",
+        //     description: "Step 4 description",
+        //     fields: [{ name: "summary", label: "Summary", type: "textarea" }],
+
+        // };
+        setFormStep((prev) => [...prev]);
     }, []);
 
     // Add Step 5 for success message
@@ -61,6 +62,7 @@ export default function StepperPage() {
         }
     };
 
+    //back step  handler
     const handleBack = () => {
         const currentStepData = watch();
         setFormValues((prev) => ({
@@ -71,6 +73,7 @@ export default function StepperPage() {
         setTimeout(() => reset(formValues[currentStep - 1] || {}), 0); // Reset form for previous step
     };
 
+    //skip step  handler
     const handleSkip = () => {
         if (!isStepOptional(currentStep)) {
             errorMsg("You can't skip a step that isn't optional.");
@@ -79,13 +82,15 @@ export default function StepperPage() {
         setCurrentStep((prev) => prev + 1);
     };
 
+    //form 
     const onSubmit = (data) => {
         const finalData = { ...formValues, [currentStep]: data };
         delete finalData[Object.keys(finalData).length - 1]; // Remove extra empty key
-        successMsg("Your form was successfully submitted!");
+        successMsg("Your booking has been successfully completed");
         setCurrentStep(formStep.length); // Go to the success step after submission
     };
 
+    //reset step handler
     const handleReset = () => {
         setCurrentStep(0);
         setFormValues({});
@@ -124,15 +129,6 @@ export default function StepperPage() {
                 ) : (
                     <React.Fragment>
                         <form onSubmit={handleSubmit(onSubmit)} className="my-12">
-                            <Grid container maxWidth="lg" spacing={4}>
-                                {formStep[currentStep]?.fields?.map((field, index) => (
-
-                                    <Grid item xs={currentStep == 2 ? 12 : 6} sm={currentStep == 2 ? 12 : 6} key={index} className="mt-4">
-                                        <DynamicFormInput control={control} field={field} errors={errors} />
-                                    </Grid>
-                                ))}
-                            </Grid>
-
                             {currentStep === formStep.length - 1 && (
                                 <Grid item xs={12}>
                                     <Typography
@@ -142,38 +138,53 @@ export default function StepperPage() {
                                     >
                                         Confirm your Details
                                     </Typography>
-                                    {Object.entries(formValues).map(([step, values], idx) => (
-                                        <Box key={idx} sx={{ my: 4 }}>
-                                            <Card elevation={3} sx={{ p: 2 }}>
-                                                <CardContent>
-                                                    <Typography variant="h6" sx={{ mb: 1 }}>
-                                                        Step {parseInt(step) + 1} Data
-                                                    </Typography>
-                                                    <Divider sx={{ mb: 3 }} />
-                                                    <Grid container spacing={2}>
-                                                        {Object.entries(values).map(([fieldName, fieldValue], fieldIdx) => {
-                                                            // Find the field definition to get the label
-                                                            const fieldDefinition = formStep[step]?.fields?.find(
-                                                                (field) => field.name === fieldName
-                                                            );
-                                                            const label = fieldDefinition?.label || fieldName; // Fallback to fieldName if label is not found
+                                    {Object.entries(formValues).map(([step, values], idx) => {
+                                        // Ensure this console log only prints once per iteration
+                                        console.log("valuesvalues", formValues);  // This will now print only once per step
 
-                                                            return (
-                                                                <Grid item xs={12} sm={6} key={fieldIdx}>
-                                                                    <Typography variant="body1">
-                                                                        <strong>{label}:</strong> {fieldValue}
-                                                                    </Typography>
-                                                                </Grid>
-                                                            );
-                                                        })}
-                                                    </Grid>
-                                                </CardContent>
-                                            </Card>
-                                        </Box>
-                                    ))}
+                                        return (
+                                            <Box key={idx} sx={{ my: 4 }}>
+                                                <Card elevation={3} sx={{ p: 2 }}>
+                                                    <CardContent>
+                                                        <Typography variant="h6" sx={{ mb: 1 }}>
+                                                            Step {parseInt(step) + 1} Data
+                                                        </Typography>
+                                                        <Divider sx={{ mb: 3 }} />
+                                                        <Grid container spacing={2}>
+                                                            {Object.entries(values).map(([fieldName, fieldValue], fieldIdx) => {
+                                                                const fieldDefinition = formStep[step]?.fields?.find(
+                                                                    (field) => field.name === fieldName
+                                                                );
+                                                                const label = fieldDefinition?.label || fieldName; // Fallback to fieldName if label is not found
+
+                                                                return (
+                                                                    <Grid item xs={12} sm={6} key={fieldIdx}>
+                                                                        <Typography variant="body1">
+                                                                            <strong>{label}:</strong> {fieldValue}
+                                                                        </Typography>
+                                                                    </Grid>
+                                                                );
+                                                            })}
+                                                        </Grid>
+                                                    </CardContent>
+                                                </Card>
+                                            </Box>
+                                        );
+                                    })}
+
 
                                 </Grid>
                             )}
+                            <Grid container maxWidth="lg" spacing={4}>
+                                {formStep[currentStep]?.fields?.map((field, index) => (
+
+                                    <Grid item xs={currentStep == 2 ? 12 : 6} sm={currentStep == 2 ? 12 : 6} key={index} className="mt-4">
+                                        <DynamicFormInput control={control} field={field} errors={errors} setPayment={setPayment} />
+                                    </Grid>
+                                ))}
+                            </Grid>
+
+
 
                             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                                 <Button
@@ -194,15 +205,22 @@ export default function StepperPage() {
                                     <Button onClick={handleNext}>Next</Button>
                                 )}
                                 {currentStep === formStep.length - 1 && (
-                                    <Button type="submit" variant="contained">
-                                        Submit
-                                    </Button>
+                                    isPayment ? (
+                                        <Button type="submit" variant="contained">
+                                            Submit
+                                        </Button>
+                                    ) : (
+                                        <Button type="submit" variant="contained" disabled>
+                                            Submit
+                                        </Button>
+                                    )
                                 )}
+
                             </Box>
                         </form>
                     </React.Fragment>
                 )}
             </Box>
-        </Container>
+        </Container >
     );
 }

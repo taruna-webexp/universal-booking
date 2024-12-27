@@ -107,5 +107,12 @@ export const FormData = [
                 "required": false
             }
         ]
+    },
+    {
+        heading: "Step 4",
+
+        description: "Step 4 description",
+        fields: [{ name: "summary", label: "Summary", type: "paymentMode", }],
+
     }
 ];

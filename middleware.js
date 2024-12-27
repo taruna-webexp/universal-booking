@@ -14,20 +14,5 @@ export const config = {
 }
 
 
-// import { withAuth } from "next-auth/middleware";
 
-// const middleware = withAuth({
-//   pages: {
-//     signIn: "/auth/signin", //redrect user unauthenticated
-//   },
-// });
 
-// export default middleware;
-
-// export const config = {
-//   matcher: [
-//     "/stepper/:path*", //protected routess
-//     "/",   
-//     "",  
-//   ],
-// };
