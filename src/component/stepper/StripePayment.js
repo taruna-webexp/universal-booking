@@ -1,48 +1,52 @@
-import { Button } from '@mui/material';
+"use client";
 import React, { useState } from 'react';
+import { Button } from '@mui/material';
 import StripeCheckout from 'react-stripe-checkout';
-import { successMsg } from '../toaster/msg/toaster';
+import axios from 'axios';
+import { successMsg } from '../toaster/msg/toaster'; // Assuming you have this utility
 
-export default function StripePayment({ setPayment }) {
-    const [userToken, setUserToken] = useState(null); // Simulated token state
-    const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
-    console.log("stripePublicKey", stripePublicKey);
-    const handleToken = (token, addresses) => {
-        console.log("Payment Successful!", token);
-        setUserToken(token); // Save token to the state
-        setPayment(true)
-        successMsg("Payment Successfully"); // Display success message immediately
+export default function StripePayment() {
+    const [paymentId, setPaymentId] = useState(null);
+    const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
+
+    const handleToken = async (token) => {
+        console.log(token);
+        try {
+            const response = await axios.post('/api/payment', {
+                id: token.id, // Use token.id directly, not token.card.id
+                amount: 4000, // Amount in cents
+            });
+            setPaymentId(response.data.confirm);
+            successMsg("Payment Successful!");
+        } catch (error) {
+            console.error("Payment Error:", error.response?.data || error.message);
+            alert("Payment failed. Please try again.");
+        }
     };
-
-    console.log("userToken", userToken);
 
     return (
         <div>
-            {userToken !== null ? (
-                <Button
-                    variant="contained"
-                    color="success"
-                    disabled
-                >
-                    Payment Completed
+            <h1>Stripe Payment</h1>
+            {paymentId && <p>Payment ID: {paymentId}</p>}
+            <StripeCheckout
+                name="My Store"
+                description="Complete your purchase"
+                amount={4000} // Amount in cents ($40.00)
+                currency="USD"
+                stripeKey={stripePublicKey}
+                token={handleToken}
+                image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                label="Pay with Stripe"
+                panelLabel="Pay {{amount}}"
+                locale="en"
+                // shippingAddress
+                // billingAddress
+                allowRememberMe
+            >
+                <Button variant="contained" color="primary">
+                    Buy Now
                 </Button>
-            ) : (
-                <StripeCheckout
-                    name="My Store"
-                    description="Complete your purchase"
-                    amount={2000} // Amount in cents (e.g., $20.00)
-                    currency="USD"
-                    stripeKey={stripePublicKey}
-                    token={handleToken} // Function to handle the payment token
-                >
-                    <Button
-                        variant="contained"
-                        color="primary"
-                    >
-                        Pay with Stripe
-                    </Button>
-                </StripeCheckout>
-            )}
+            </StripeCheckout>
         </div>
     );
 }

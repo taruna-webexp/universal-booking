@@ -8,6 +8,7 @@ import FormInput from "../share/form/FormInput";
 import FormInputSelect from "../share/form/SelectInput";
 import DateTimePickerController from "../share/form/DateTime";
 import StripePayment from "./StripePayment";
+import PaymentDailogBox from "../modal/PaymentDailogBox";
 
 const DynamicFormInput = ({ control, field, errors, setPayment }) => {
     const {
@@ -76,8 +77,10 @@ const DynamicFormInput = ({ control, field, errors, setPayment }) => {
                 />
             );
         case "paymentMode":
-            return (
-                <StripePayment setPayment={setPayment} />
+            return (<>
+
+                <PaymentDailogBox setPayment={setPayment} />
+            </>
             );
 
         case "checkbox":
