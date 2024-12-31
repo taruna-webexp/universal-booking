@@ -85,9 +85,9 @@ export const FormData = [
                 "name": "phone",
                 "type": "number",
                 "step": 2,
-                "label": "phone No",
+                "label": "Phone No",
 
-                "placeholder": "Enter phone no",
+                "placeholder": "Enter your number",
                 "defaultValue": "",
                 "value": "",
                 "class": "",
@@ -161,7 +161,7 @@ export const FormData = [
         heading: "Booking  4",
 
         description: "Step 4 description",
-        fields: [{ name: "summary", label: "Summary", type: "", }],
+        fields: [{ name: "summary", label: "Summary", type: "paymentMode", }],
 
     }
 ];
