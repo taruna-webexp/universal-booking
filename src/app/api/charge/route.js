@@ -1,10 +1,10 @@
 // src/app/api/charge/route.js
 
-import Stripe from 'stripe';
+import Stripe from "stripe";
 
-// Initialize Stripe with your secret key (use your own secret key here)
+// Initialize Stripe with your secret key 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-console.log("stripe123", stripe);
+
 // POST request handler to process the payment
 export async function POST(req) {
     // Get the body of the request
@@ -14,13 +14,13 @@ export async function POST(req) {
         // Create a payment intent with Stripe
         const paymentIntent = await stripe.paymentIntents.create({
             amount,
-            currency: 'USD',
-            description: 'Delicious empanadas',
+            currency: "USD",
+            description: "Delicious empanadas",
             payment_method: id,
             confirm: true,
             automatic_payment_methods: {
                 enabled: true,
-                allow_redirects: 'never',  // Disable redirects after payment
+                allow_redirects: "never", // Disable redirects after payment
             },
         });
 

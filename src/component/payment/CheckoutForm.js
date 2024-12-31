@@ -1,13 +1,11 @@
-// src/app/pay.js (or wherever you want to place this component)
 "use client"
 import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Elements, CardElement, AddressElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { successMsg } from '../toaster/msg/toaster';
 import { CircularProgress } from '@mui/material';
 
-// Load Stripe with your public key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 const CheckoutForm = ({ handleCloseModal, onPaymentSuccess, setPaymentComplete }) => {
@@ -42,7 +40,18 @@ const CheckoutForm = ({ handleCloseModal, onPaymentSuccess, setPaymentComplete }
 
     return (
         <>
-            <CardElement dividers />
+            {/* AddressElement for collecting billing address */}
+            <div style={{ marginBottom: "20px" }}>
+                <AddressElement options={{ mode: "billing" }} />
+            </div>
+            <div className='abcdefg'
+                style={{
+                    marginBottom: "20px",
+                    padding: "15px",
+                    border: "1px solid #e6e6e6",
+                    borderRadius: "5px"
+                }}>
+                <CardElement dividers /></div>
             <button style={{ paddingTop: "34px", float: "right", color: "blue" }} onClick={handleSubmit} disabled={!stripe}> {!loading ? "Pay" : <CircularProgress color="inherit" />}</button>
         </>
     );
