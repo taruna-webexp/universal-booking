@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import DynamicFormInput from "@/component/stepper/DynamicFormInput";
 import { successMsg, errorMsg } from "@/component/toaster/msg/toaster";
 import { FormData } from "@/service/formData";
-
+import CheckIcon from '@mui/icons-material/Check';
 export default function StepperPage() {
     const [currentStep, setCurrentStep] = useState(0); // Active step
     const [formValues, setFormValues] = useState({}); // Form data for all steps
@@ -113,16 +113,20 @@ export default function StepperPage() {
 
                 {currentStep === formStep.length ? (
                     <React.Fragment>
-                        <Typography sx={{ mt: 2, mb: 1 }}>
-                            Booking Completed - Your reservation is confirmed!
-                        </Typography>
-                        <Typography sx={{ mt: 2, mb: 1 }}>
-                            <strong className="!text-2xl"> Your booking has been successfully completed. Thank you for choosing our service!</strong>
-                        </Typography>
-                        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                            <Box sx={{ flex: "1 1 auto" }} />
-                            <Button onClick={handleReset}>Reset</Button>
-                        </Box>
+                        <div style={{ textAlign: "center", marginTop: "40px" }}>
+                            <p style={{ margin: "0 auto", width: "60px", padding: "5px" }} className="rounded-full bg-green-400"><CheckIcon className="text-green-700 !font-black !text-5xl" fontSize="large" /></p>
+                            <Typography sx={{ mt: 2, mb: 1 }}>
+                                Booking Completed - Your reservation is confirmed!
+                            </Typography>
+                            <Typography sx={{ mt: 2, mb: 1 }}>
+                                <strong className="!text-2xl"> Your booking has been successfully completed.<br />
+                                    <span className="text-green-600 text-3xl">Thank you </span>for choosing our service!</strong>
+                            </Typography>
+                            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                                <Box sx={{ flex: "1 1 auto" }} />
+                                <Button onClick={handleReset}>Reset</Button>
+                            </Box>
+                        </div>
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
@@ -151,7 +155,7 @@ export default function StepperPage() {
                                                 <Card elevation={3} sx={{ p: 2 }}>
                                                     <CardContent>
                                                         <Typography variant="h6" sx={{ mb: 1 }}>
-                                                            Step {parseInt(step) + 1} Data
+                                                            Booking {parseInt(step) + 1} Details
                                                         </Typography>
                                                         <Divider sx={{ mb: 3 }} />
                                                         <Grid container spacing={2}>

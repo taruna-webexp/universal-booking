@@ -1,6 +1,6 @@
 export const FormData = [
     {
-        "heading": "Step 1",
+        "heading": "Booking 1",
         "description": "Step 1 description",
         "fields": [
             {
@@ -11,6 +11,19 @@ export const FormData = [
 
                 "defaultValue": "",
                 "placeholder": " Name",
+                "value": "",
+                "class": "",
+                "id": "",
+                "required": true
+            },
+            {
+                "name": "email",
+                "type": "text",
+                "step": 1,
+                "label": "email",
+
+                "defaultValue": "",
+                "placeholder": "demo@yopmail.com",
                 "value": "",
                 "class": "",
                 "id": "",
@@ -37,11 +50,23 @@ export const FormData = [
                         "label": "Women"
                     }
                 ]
-            }
+            }, {
+                "name": "address",
+                "type": "text",
+                "step": 1,
+                "label": "Address",
+
+                "defaultValue": "",
+                "placeholder": "Your address",
+                "value": "",
+                "class": "",
+                "id": "",
+                "required": false
+            },
         ]
     },
     {
-        "heading": "Step 2",
+        "heading": "Booking 2",
         "description": "Step 2 description",
         "fields": [
             {
@@ -51,6 +76,18 @@ export const FormData = [
                 "label": "Last Name",
 
                 "placeholder": "Last Name",
+                "defaultValue": "",
+                "value": "",
+                "class": "",
+                "id": ""
+            },
+            {
+                "name": "phone",
+                "type": "number",
+                "step": 2,
+                "label": "phone No",
+
+                "placeholder": "Enter phone no",
                 "defaultValue": "",
                 "value": "",
                 "class": "",
@@ -78,11 +115,23 @@ export const FormData = [
                     }
                 ],
                 "required": true
-            }
+            },
+            {
+                "name": "description",
+                "type": "text",
+                "step": 2,
+                "label": "Description",
+
+                "placeholder": "Description",
+                "defaultValue": "",
+                "value": "",
+                "class": "",
+                "id": ""
+            },
         ]
     },
     {
-        "heading": "Step 3",
+        "heading": "Booking 3",
         "description": "Step 3 description",
         "fields": [
             {
@@ -109,10 +158,10 @@ export const FormData = [
         ]
     },
     {
-        heading: "Step 4",
+        heading: "Booking  4",
 
         description: "Step 4 description",
-        fields: [{ name: "summary", label: "Summary", type: "paymentMode", }],
+        fields: [{ name: "summary", label: "Summary", type: "", }],
 
     }
 ];
