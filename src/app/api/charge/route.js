@@ -3,7 +3,7 @@
 import Stripe from 'stripe';
 
 // Initialize Stripe with your secret key (use your own secret key here)
-const stripe = new Stripe('sk_test_51PlOw3SBALTJP9oX3LgHuooAvaVB4XcyYki44A5BkMZbdvRKS91Zg2vLcdTADeDcXwtuiRMJVYRNtxvucSULMzCF00zs2gdAF2');
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 console.log("stripe123", stripe);
 // POST request handler to process the payment
 export async function POST(req) {

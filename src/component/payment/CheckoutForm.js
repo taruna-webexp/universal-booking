@@ -8,7 +8,7 @@ import { successMsg } from '../toaster/msg/toaster';
 import { CircularProgress } from '@mui/material';
 
 // Load Stripe with your public key
-const stripePromise = loadStripe('pk_test_51PlOw3SBALTJP9oXEUQdAQCLNHmnKddPdQCCQmXPqYGyL8ITqiLjNHy2QFKAyhbOyYIVxrAt1TyWFhxrlFrD2El5008ggIbpdv');
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 const CheckoutForm = ({ handleCloseModal, onPaymentSuccess, setPaymentComplete }) => {
     const stripe = useStripe();
