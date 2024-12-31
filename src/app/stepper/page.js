@@ -23,6 +23,7 @@ export default function StepperPage() {
     const [currentStep, setCurrentStep] = useState(0); // Active step
     const [formValues, setFormValues] = useState({}); // Form data for all steps
     const [formStep, setFormStep] = useState(FormData); // Steps configuration
+    console.log("formStep", formStep);
     const [isPayment, setPayment] = useState(false)
     const {
         control,
@@ -35,15 +36,12 @@ export default function StepperPage() {
         mode: "onChange",
         reValidateMode: "onChange",
     });
-
+    const hasPaymentMode = formStep.some(step =>
+        step.fields.some(field => field.type === "paymentMode")
+    );
     // Add a new dynamic step
     useEffect(() => {
-        // const updateStepData = {
-        //     heading: "Step 4",
-        //     description: "Step 4 description",
-        //     fields: [{ name: "summary", label: "Summary", type: "textarea" }],
 
-        // };
         setFormStep((prev) => [...prev]);
     }, []);
 
@@ -139,8 +137,14 @@ export default function StepperPage() {
                                         Confirm your Details
                                     </Typography>
                                     {Object.entries(formValues).map(([step, values], idx) => {
-                                        // Ensure this console log only prints once per iteration
-                                        console.log("valuesvalues", formValues);  // This will now print only once per step
+                                        //remove the last index if length big 3
+                                        if (Object.keys(formValues).length > 3) {
+                                            const keys = Object.keys(formValues);
+                                            const lastKey = keys[keys.length - 1];
+                                            delete formValues[lastKey]; // Remove the last key
+                                        }
+
+                                        console.log("Updated formValues:", formValues); // This will now log the modified formValues
 
                                         return (
                                             <Box key={idx} sx={{ my: 4 }}>
@@ -171,6 +175,7 @@ export default function StepperPage() {
                                             </Box>
                                         );
                                     })}
+
 
 
                                 </Grid>
@@ -205,7 +210,7 @@ export default function StepperPage() {
                                     <Button onClick={handleNext}>Next</Button>
                                 )}
                                 {currentStep === formStep.length - 1 && (
-                                    isPayment ? (
+                                    isPayment || !hasPaymentMode ? (
                                         <Button type="submit" variant="contained">
                                             Submit
                                         </Button>

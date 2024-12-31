@@ -5,6 +5,7 @@ import { Elements, CardElement, AddressElement, useStripe, useElements } from '@
 import axios from 'axios';
 import { successMsg } from '../toaster/msg/toaster';
 import { CircularProgress } from '@mui/material';
+import { green } from '@mui/material/colors';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
@@ -52,7 +53,7 @@ const CheckoutForm = ({ handleCloseModal, onPaymentSuccess, setPaymentComplete }
                     borderRadius: "5px"
                 }}>
                 <CardElement dividers /></div>
-            <button style={{ paddingTop: "34px", float: "right", color: "blue" }} onClick={handleSubmit} disabled={!stripe}> {!loading ? "Pay" : <CircularProgress color="inherit" />}</button>
+            <button style={{ padding: "10px", color: "white", backgroundColor: "#036edd", width: "100%" }} onClick={handleSubmit} disabled={!stripe}> {!loading ? "Pay" : <CircularProgress color="inherit" />}</button>
         </>
     );
 };

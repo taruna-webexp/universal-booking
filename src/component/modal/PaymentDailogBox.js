@@ -20,7 +20,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     // Add custom width here
     '& .MuiDialog-paper': {
         width: '80%', // Adjust width as needed
-        maxWidth: '800px', // Optional: set a max-width if needed
+        maxWidth: '400px', // Optional: set a max-width if needed
     },
 }));
 
