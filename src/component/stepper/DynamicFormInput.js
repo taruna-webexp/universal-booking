@@ -7,7 +7,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormInput from "../share/form/FormInput";
 import FormInputSelect from "../share/form/SelectInput";
 import DateTimePickerController from "../share/form/DateTime";
-import PaymentDailogBox from "../modal/PaymentDailogBox";
 import PhoneNumberInput from "../share/form/PhoneNumberInput";
 import Pay from "../payment/CheckoutForm";
 
