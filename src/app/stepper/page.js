@@ -93,7 +93,7 @@ export default function StepperPage() {
         const { title, phone, selectSeat, description } = finalData[1];
         const { dateTime } = finalData[2];
 
-        // Function to convert dateTime from string to Date object (handling AM/PM and converting to 24-hour format)
+        // Function to convert dateTime  to Date object (handling AM/PM )
         const convertTo24HourFormat = (dateStr) => {
             const [date, time] = dateStr.split(", ");
             const [hour, minute] = time.split(":");
@@ -108,7 +108,6 @@ export default function StepperPage() {
 
         // Parse local start time from dateTime
         const localStartTime = convertTo24HourFormat(dateTime);
-        console.log("localStartTime", localStartTime);
 
         // Calculate the end time by adding 30 minutes
         const localEndTime = new Date(localStartTime);
@@ -125,8 +124,6 @@ export default function StepperPage() {
         // Adjust both start and end time to IST
         const startDateIST = adjustToIST(localStartTime);
         const endDateIST = adjustToIST(localEndTime);
-        console.log("start IST", startDateIST);
-        console.log("end IST", endDateIST);
 
         // Format IST date to Google Calendar's required format (YYYYMMDDTHHmmssZ)
         const formatToGoogleCalendar = (date) => {
@@ -225,8 +222,9 @@ export default function StepperPage() {
                             </strong>
                         </Typography>
                         <Typography sx={{ mt: 2, mb: 1 }}>
-                            You can view, edit, or manage your booking directly through the link below:
-                            <Link className="text-blue-500" href={bookingLink}> View your booking</Link>
+                            Please use the link  to <Link className="text-blue-500" href={bookingLink} target="_blank" rel="noopener noreferrer">add the booking to your calendar</Link> and stay updated on your scheduled service:
+
+
                         </Typography>
                         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                             <Box sx={{ flex: "1 1 auto" }} />
@@ -234,7 +232,7 @@ export default function StepperPage() {
                                 style={{ backgroundColor: "#1976d2", color: "white" }}
                                 onClick={handleReset}
                             >
-                                Reset
+                                Back to home
                             </Button>
                         </Box>
                     </Box>

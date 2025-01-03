@@ -145,7 +145,7 @@ export const FormData = [
                 ],
                 "class": "",
                 "id": "",
-                "required": false
+                "required": true
             }
         ]
     },

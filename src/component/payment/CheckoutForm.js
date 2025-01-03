@@ -4,27 +4,25 @@ import { loadStripe } from "@stripe/stripe-js";
 import {
     Elements,
     CardElement,
-    AddressElement,
     useStripe,
     useElements,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { errorMsg, successMsg } from "../toaster/msg/toaster";
 import { CircularProgress } from "@mui/material";
-import { green } from "@mui/material/colors";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
-const CheckoutForm = ({
-
-    onPaymentSuccess
-
-}) => {
+const CheckoutForm = ({ onPaymentSuccess }) => {
     const stripe = useStripe();
     const elements = useElements();
-    const [loading, setLoding] = useState(false);
+    const [loading, setLoading] = useState(false); // Corrected spelling of 'loading'
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // Set loading to true when the payment process starts
+        setLoading(true);
 
         // Create a payment method using the Stripe Elements CardElement
         const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -38,24 +36,23 @@ const CheckoutForm = ({
             try {
                 // Send the payment method ID and amount to your API route
                 const { data } = await axios.post("/api/charge", { id, amount: 2099 });
-
-                setLoding(true);
                 successMsg("Payment Successfully");
 
+                // Call the success callback
                 onPaymentSuccess();
             } catch (error) {
                 errorMsg(error.message);
             }
+        } else {
+            errorMsg(error.message);
         }
+
+        // Reset loading after response is received
+        setLoading(false);
     };
 
     return (
         <>
-            <div></div>
-            {/* AddressElement for collecting billing address */}
-            {/* <div style={{ marginBottom: "20px" }}>
-                <AddressElement options={{ mode: "billing" }} />
-            </div> */}
             <label>Credit or debit card:</label>
             <div
                 className="abcdefg"
@@ -75,12 +72,14 @@ const CheckoutForm = ({
                     color: "white",
                     backgroundColor: "#036edd",
                     width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                 }}
                 onClick={handleSubmit}
-                disabled={!stripe}
+                disabled={!stripe || loading} // Disable button during loading
             >
-                {" "}
-                Pay
+                {loading ? <CircularProgress size={24} color="inherit" /> : "Pay"}
             </button>
         </>
     );
