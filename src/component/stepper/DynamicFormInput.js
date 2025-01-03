@@ -1,9 +1,6 @@
 import React from "react";
 import { Controller } from "react-hook-form";
-import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import FormInput from "../share/form/FormInput";
 import FormInputSelect from "../share/form/SelectInput";
 import DateTimePickerController from "../share/form/DateTime";
@@ -15,7 +12,6 @@ const DynamicFormInput = ({ control, field, errors, handlePaymentSuccess }) => {
         type,
         name,
         label,
-
         placeholder,
         defaultValue,
         class: fieldClass,
@@ -32,7 +28,6 @@ const DynamicFormInput = ({ control, field, errors, handlePaymentSuccess }) => {
 
     switch (type) {
         case "text":
-
         case "number":
         case "email":
             return (

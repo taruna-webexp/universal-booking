@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { FormControl, TextField } from '@mui/material';
+import { FormControl } from '@mui/material';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 
@@ -9,7 +9,7 @@ export default function PhoneNumberInput({
     control,
     label,
     errors,
-    validation, // Accept validation rules as a prop
+    validation,
     className,
     placeholder,
 }) {
@@ -20,7 +20,7 @@ export default function PhoneNumberInput({
                 name={name}
                 control={control}
                 defaultValue=""
-                rules={validation} // Apply validation rules
+                rules={validation}
                 render={({ field }) => (
                     <PhoneInput
                         {...field}

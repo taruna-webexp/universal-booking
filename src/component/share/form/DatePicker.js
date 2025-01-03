@@ -66,7 +66,6 @@ const DateTimePickerController = ({ name, control, slot, errors, validation }) =
                                 const date = startTime.split("T")[0];  // Extract date part
                                 const time = startTime.split("T")[1].substring(0, 5);  // Extract time part
                                 const selectedDateTime = { date, time };  // Create a structured object
-                                console.log(`Selected Date: ${date}, Selected Time: ${time}`);
                                 onChange(selectedDateTime);  // Send the selected date and time to the parent
                             } else {
                                 console.error("startTime is not a string", startTime);  // Log if it's not a string
@@ -75,7 +74,7 @@ const DateTimePickerController = ({ name, control, slot, errors, validation }) =
                     />
                 )}
             />
-            {/* {errors?.[name] && <p style={{ color: "#c22626" }}>{errors[name]?.message}</p>} */}
+            {errors?.[name] && <p style={{ color: "#c22626" }}>{errors[name]?.message}</p>}
         </FormControl>
     );
 };
