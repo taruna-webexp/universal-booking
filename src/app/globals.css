@@ -4,7 +4,13 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
+}
+
+/* Dark theme */
+.dark {
+  --background: #110202;
+  --foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,4 +24,32 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+.teliPhone {
+  border: 1px solid #bcbcbc !important;
+  height: 56px !important;
+  border-radius: 4px !important;
+  padding-left: 8px !important;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  -ms-border-radius: 4px !important;
+  -o-border-radius: 4px !important;
+}
+.teliPhone .PhoneInputInput {
+  border: none;
+  height: 53px !important;
+  border-radius: 4px !important;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  -ms-border-radius: 4px !important;
+  -o-border-radius: 4px !important;
+}
+.paymentMethodDiv {
+  max-width: 885px !important;
+  margin: 0 auto !important;
+  margin-top: 20px !important;
+}
+.previewFormDiv {
+  max-width: 880px !important;
+  margin: 0 auto !important;
 }

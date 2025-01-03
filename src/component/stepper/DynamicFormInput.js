@@ -7,10 +7,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormInput from "../share/form/FormInput";
 import FormInputSelect from "../share/form/SelectInput";
 import DateTimePickerController from "../share/form/DateTime";
-import StripePayment from "./StripePayment";
 import PaymentDailogBox from "../modal/PaymentDailogBox";
+import PhoneNumberInput from "../share/form/PhoneNumberInput";
+import Pay from "../payment/CheckoutForm";
 
-const DynamicFormInput = ({ control, field, errors, setPayment }) => {
+const DynamicFormInput = ({ control, field, errors, handlePaymentSuccess }) => {
     const {
         type,
         name,
@@ -32,6 +33,7 @@ const DynamicFormInput = ({ control, field, errors, setPayment }) => {
 
     switch (type) {
         case "text":
+
         case "number":
         case "email":
             return (
@@ -79,9 +81,19 @@ const DynamicFormInput = ({ control, field, errors, setPayment }) => {
         case "paymentMode":
             return (<>
 
-                <PaymentDailogBox setPayment={setPayment} />
+                <Pay onPaymentSuccess={handlePaymentSuccess} />
             </>
             );
+        case "tel":
+            return (<PhoneNumberInput
+                name={name}
+                className="teliPhone"
+                control={control}
+                label={label}
+                errors={errors}
+                validation={validation}
+                placeholder={placeholder}
+            />);
 
         case "checkbox":
             return (

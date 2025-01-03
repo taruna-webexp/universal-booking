@@ -3,6 +3,7 @@ import "./globals.css";
 import { NextAuthProvider } from "./providers";
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
 import { ToastContainer } from 'react-toastify'; // Import the ToastContainer
+import ThemeProvider from "@/component/theme/ThemeProvider";
 
 
 export const metadata = {
@@ -15,10 +16,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
       >
-        <NextAuthProvider>
-          <ToastContainer />
-          <Navbar />
-          {children}   </NextAuthProvider>
+        <ThemeProvider>
+          <NextAuthProvider>
+            <ToastContainer />
+            <Navbar />
+            {children}   </NextAuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -4,13 +4,12 @@ export const FormData = [
         "description": "Step 1 description",
         "fields": [
             {
-                "name": "textFiled",
+                "name": "textField",
                 "type": "text",
                 "step": 1,
                 "label": "First Name",
-
                 "defaultValue": "",
-                "placeholder": " Name",
+                "placeholder": "Name",
                 "value": "",
                 "class": "",
                 "id": "",
@@ -18,10 +17,9 @@ export const FormData = [
             },
             {
                 "name": "email",
-                "type": "text",
+                "type": "email",
                 "step": 1,
-                "label": "email",
-
+                "label": "Email",
                 "defaultValue": "",
                 "placeholder": "demo@yopmail.com",
                 "value": "",
@@ -30,11 +28,10 @@ export const FormData = [
                 "required": true
             },
             {
-                "name": "selectFiled",
+                "name": "selectField",
                 "type": "select",
                 "step": 1,
                 "label": "Select Gender",
-
                 "defaultValue": "",
                 "placeholder": "Gender",
                 "value": "",
@@ -50,19 +47,19 @@ export const FormData = [
                         "label": "Women"
                     }
                 ]
-            }, {
+            },
+            {
                 "name": "address",
                 "type": "text",
                 "step": 1,
                 "label": "Address",
-
                 "defaultValue": "",
                 "placeholder": "Your address",
                 "value": "",
                 "class": "",
                 "id": "",
                 "required": false
-            },
+            }
         ]
     },
     {
@@ -70,12 +67,11 @@ export const FormData = [
         "description": "Step 2 description",
         "fields": [
             {
-                "name": "stepFiled2",
+                "name": "title",
                 "type": "text",
                 "step": 2,
-                "label": "Last Name",
-
-                "placeholder": "Last Name",
+                "label": "Booking Title",
+                "placeholder": "Booking Title",
                 "defaultValue": "",
                 "value": "",
                 "class": "",
@@ -83,10 +79,9 @@ export const FormData = [
             },
             {
                 "name": "phone",
-                "type": "number",
+                "type": "tel",
                 "step": 2,
-                "label": "Phone No",
-
+                "label": "Phone ",
                 "placeholder": "Enter your number",
                 "defaultValue": "",
                 "value": "",
@@ -94,12 +89,11 @@ export const FormData = [
                 "id": ""
             },
             {
-                "name": "stepselect2",
+                "name": "selectSeat",
                 "type": "select",
                 "step": 2,
                 "label": "Select your seat",
-
-                "placeholder": "Select 2",
+                "placeholder": "Select seat",
                 "defaultValue": "",
                 "value": "",
                 "class": "",
@@ -107,11 +101,11 @@ export const FormData = [
                 "options": [
                     {
                         "value": "one",
-                        "label": "one"
+                        "label": "One"
                     },
                     {
                         "value": "two",
-                        "label": "two"
+                        "label": "Two"
                     }
                 ],
                 "required": true
@@ -121,13 +115,12 @@ export const FormData = [
                 "type": "text",
                 "step": 2,
                 "label": "Description",
-
                 "placeholder": "Description",
                 "defaultValue": "",
                 "value": "",
                 "class": "",
                 "id": ""
-            },
+            }
         ]
     },
     {
@@ -138,7 +131,7 @@ export const FormData = [
                 "name": "dateTime",
                 "type": "calendar",
                 "step": 3,
-                "label": " Date & Time",
+                "label": "Date & Time",
                 "defaultValue": "",
                 "placeholder": "Pick date & time",
                 "value": "",
@@ -149,7 +142,6 @@ export const FormData = [
                         "startTime": "17:00",
                         "endTime": "19:00"
                     }
-
                 ],
                 "class": "",
                 "id": "",
@@ -158,10 +150,15 @@ export const FormData = [
         ]
     },
     {
-        heading: "Booking  4",
+        "heading": "Booking 4",
+        "description": "Step 4 description",
+        "fields": [
+            {
+                "name": "summary",
+                "label": "Summary",
+                "type": "paymentMode"
+            }
 
-        description: "Step 4 description",
-        fields: [{ name: "summary", label: "Summary", type: "paymentMode", }],
-
+        ]
     }
-];
+]
