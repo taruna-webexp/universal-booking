@@ -25,8 +25,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.1",
+    "react-phone-input-2": "^2.15.1",
    
-    "react-phone-number-input": "^3.4.10",
     "react-schedule-meeting": "^4.2.3",
     "react-stripe-checkout": "^2.6.3",
     "react-toastify": "^10.0.6",

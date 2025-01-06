@@ -1,8 +1,8 @@
 import Navbar from "@/component/common/Navbar";
 import "./globals.css";
 import { NextAuthProvider } from "./providers";
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
-import { ToastContainer } from 'react-toastify'; // Import the ToastContainer
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import ThemeProvider from "@/component/theme/ThemeProvider";
 
 

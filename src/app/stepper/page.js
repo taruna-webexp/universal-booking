@@ -13,7 +13,6 @@ import {
     Card,
     CardContent,
     Divider,
-    Tooltip,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import DynamicFormInput from "@/component/stepper/DynamicFormInput";
@@ -27,8 +26,8 @@ export default function StepperPage() {
     const [formValues, setFormValues] = useState({}); // Form data for all steps
     const [formStep, setFormStep] = useState(FormData); // Steps configuration
     const [isPayment, setPayment] = useState(false);
-    const [bookingLink, setBookingLink] = useState("")
-    console.log("currentStep", currentStep);
+    const [bookingLink, setBookingLink] = useState("");
+
     const {
         control,
         handleSubmit,
@@ -41,6 +40,7 @@ export default function StepperPage() {
         reValidateMode: "onChange",
     });
 
+    //payment mode
     const hasPaymentMode = formStep.some((step) =>
         step.fields.some((field) => field.type === "paymentMode")
     );
@@ -49,7 +49,8 @@ export default function StepperPage() {
         setFormStep((prev) => [...prev]);
     }, []);
 
-    const handleNext = async () => {
+    //
+    const handleStipperNext = async () => {
         const isValid = await trigger();
         if (isValid) {
             const currentStepData = watch();
@@ -63,7 +64,7 @@ export default function StepperPage() {
         }
     };
 
-    const handleBack = () => {
+    const handleStipperBack = () => {
         const currentStepData = watch();
         setFormValues((prev) => ({
             ...prev,
@@ -73,7 +74,7 @@ export default function StepperPage() {
         setTimeout(() => reset(formValues[currentStep - 1] || {}), 0);
     };
 
-    const handleSkip = () => {
+    const handleStipperSkip = () => {
         if (!isStepOptional(currentStep)) {
             errorMsg("You can't skip a step that isn't optional.");
             return;
@@ -81,64 +82,48 @@ export default function StepperPage() {
         setCurrentStep((prev) => prev + 1);
     };
 
+    //Form submit handler
     const onSubmit = (data) => {
         const finalData = { ...formValues, [currentStep]: data };
-        console.log("myyyy", finalData);
-
-        // Remove the last step data from finalData
-        delete finalData[Object.keys(finalData).length - 1];
-
-        // Extracting the data from finalData
         const { textField, email, selectField, address } = finalData[0];
         const { title, phone, selectSeat, description } = finalData[1];
         const { dateTime } = finalData[2];
 
-        // Function to convert dateTime  to Date object (handling AM/PM )
-        const convertTo24HourFormat = (dateStr) => {
-            const [date, time] = dateStr.split(", ");
-            const [hour, minute] = time.split(":");
-            const parsedHour = parseInt(hour, 10);
-
-            // If the time is in the PM, adjust it to 24-hour format
-            const hourIn24 = parsedHour >= 12 ? parsedHour : parsedHour + 12; // 12 PM and beyond should not change, else add 12 for PM
-            const formattedDateStr = `${date}T${hourIn24}:${minute}:00`;
-
-            return new Date(formattedDateStr); // Convert to a Date object
-        };
-
-        // Parse local start time from dateTime
-        const localStartTime = convertTo24HourFormat(dateTime);
-
-        // Calculate the end time by adding 30 minutes
-        const localEndTime = new Date(localStartTime);
-        localEndTime.setMinutes(localStartTime.getMinutes() + 30); // Add 30 minutes for the end time
-
-        // Adjust time to IST (Indian Standard Time: UTC +5:30)
-        const adjustToIST = (date) => {
-            const istDate = new Date(date);
-            istDate.setHours(istDate.getHours() + 5);
-            istDate.setMinutes(istDate.getMinutes() + 30); // IST is UTC +5:30
+        // Function to parse and adjust date-time to IST
+        const parseToIST = (dateTimeStr) => {
+            const [datePart, timePart] = dateTimeStr.split(", ");
+            const date = new Date(`${datePart}T${timePart}`);
+            if (isNaN(date)) {
+                throw new Error("Invalid date-time format.");
+            }
+            // Convert to IST directly
+            const istDate = new Date(
+                date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+            );
             return istDate;
         };
 
-        // Adjust both start and end time to IST
-        const startDateIST = adjustToIST(localStartTime);
-        const endDateIST = adjustToIST(localEndTime);
+        // Get local start time in IST
+        const startIST = parseToIST(dateTime);
 
-        // Format IST date to Google Calendar's required format (YYYYMMDDTHHmmssZ)
-        const formatToGoogleCalendar = (date) => {
+        // Calculate the end time by adding 30 minutes
+        const endIST = new Date(startIST);
+        endIST.setMinutes(startIST.getMinutes() + 30);
+
+        // Format date-time for Google Calendar (YYYYMMDDTHHmmssZ)
+        const formatForCalendar = (date) => {
             const year = date.getFullYear();
-            const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Add leading zero for single digit months
-            const day = date.getDate().toString().padStart(2, "0"); // Add leading zero for single digit days
+            const month = (date.getMonth() + 1).toString().padStart(2, "0");
+            const day = date.getDate().toString().padStart(2, "0");
             const hours = date.getHours().toString().padStart(2, "0");
             const minutes = date.getMinutes().toString().padStart(2, "0");
             return `${year}${month}${day}T${hours}${minutes}00`;
         };
 
-        const startDateForGoogle = formatToGoogleCalendar(startDateIST);
-        const endDateForGoogle = formatToGoogleCalendar(endDateIST);
+        const startCalendar = formatForCalendar(startIST);
+        const endCalendar = formatForCalendar(endIST);
 
-        // Construct the event title and details
+        // Construct the event details
         const eventTitle = `${title} - Service by ${textField}`;
         const eventDetails = `
             Name: ${textField}
@@ -146,26 +131,19 @@ export default function StepperPage() {
             Phone: ${phone}
             Description: ${description}
             Address: ${address}
-            date:${dateTime}
+          
         `;
 
-        // Generate the Google Calendar link
+        // Generate the google calendar link
         const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
             eventTitle
-        )}&dates=${startDateForGoogle}/${endDateForGoogle}&details=${encodeURIComponent(
+        )}&dates=${startCalendar}/${endCalendar}&details=${encodeURIComponent(
             eventDetails
         )}&location=${encodeURIComponent(address)}`;
+
         setCurrentStep(formStep.length);
-        // Set the generated booking link
         setBookingLink(calendarLink);
-
-        // Display success message
         successMsg("Your booking has been successfully completed");
-        // setCurrentStep(0);
-        // setFormValues({});
-        // reset({});
-
-
     };
 
     const handleReset = () => {
@@ -181,6 +159,8 @@ export default function StepperPage() {
             setPayment(true); // Otherwise, allow manual form submission
         }
     };
+
+    //Optional steps
     const isStepOptional = (step) => step === 1;
 
     return (
@@ -215,17 +195,30 @@ export default function StepperPage() {
                         <Typography sx={{ mt: 2, mb: 1 }}>
                             <strong className="!text-2xl">
                                 Your booking has been successfully completed.
-
                                 <br />
                                 <span className="text-green-600 text-3xl">Thank you </span>for
                                 choosing our service!
                             </strong>
                         </Typography>
-                        <Typography sx={{ mt: 2, mb: 1 }}>
-                            Please use the link  to <Link className="text-blue-500" href={bookingLink} target="_blank" rel="noopener noreferrer">add the booking to your calendar</Link> and stay updated on your scheduled service:
 
+                        <div className="flex justify-center items-center">
+                            <Link
+                                href={bookingLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center space-x-3 px-6 py-3 border border-gray-300 rounded-lg shadow-md text-blue-600 hover:bg-gray-100 hover:border-blue-400 transition-all duration-200"
+                            >
+                                <img
+                                    src="/calendar.webp"
+                                    alt="Calendar Icon"
+                                    className="w-6 h-6"
+                                />
+                                <span className="font-medium text-sm md:text-base">
+                                    Add the booking to calendar
+                                </span>
+                            </Link>
+                        </div>
 
-                        </Typography>
                         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                             <Box sx={{ flex: "1 1 auto" }} />
                             <Button
@@ -251,41 +244,43 @@ export default function StepperPage() {
                                     <Grid item xs={12} sm={12} className="previewFormDiv">
                                         <Card sx={{ p: 2 }}>
                                             <CardContent>
-                                                {Object.entries(formValues).map(([step, values], idx) => {
-                                                    //remove the last index if length big 3
-                                                    if (Object.keys(formValues).length > 3) {
-                                                        const keys = Object.keys(formValues);
-                                                        const lastKey = keys[keys.length - 1];
-                                                        delete formValues[lastKey]; // Remove the last key
-                                                    }
+                                                {Object.entries(formValues).map(
+                                                    ([step, values], idx) => {
+                                                        //remove the last index if length big 3
+                                                        if (Object.keys(formValues).length > 3) {
+                                                            const keys = Object.keys(formValues);
+                                                            const lastKey = keys[keys.length - 1];
+                                                            delete formValues[lastKey]; // Remove the last key
+                                                        }
 
-                                                    console.log("Updated formValues:", formValues);
-                                                    return (
-                                                        <Box key={idx}>
-                                                            <Divider sx={{ mb: 3 }} />
-                                                            <Grid container spacing={2}>
-                                                                {Object.entries(values).map(
-                                                                    ([fieldName, fieldValue], fieldIdx) => {
-                                                                        const fieldDefinition = formStep[
-                                                                            step
-                                                                        ]?.fields?.find(
-                                                                            (field) => field.name === fieldName
-                                                                        );
-                                                                        const label =
-                                                                            fieldDefinition?.label || fieldName;
-                                                                        return (
-                                                                            <Grid item xs={6} sm={6} key={fieldIdx}>
-                                                                                <Typography variant="body1">
-                                                                                    <strong>{label}:</strong> {fieldValue}
-                                                                                </Typography>
-                                                                            </Grid>
-                                                                        );
-                                                                    }
-                                                                )}
-                                                            </Grid>
-                                                        </Box>
-                                                    )
-                                                })}
+                                                        return (
+                                                            <Box key={idx}>
+                                                                <Divider sx={{ mb: 3 }} />
+                                                                <Grid container spacing={2}>
+                                                                    {Object.entries(values).map(
+                                                                        ([fieldName, fieldValue], fieldIdx) => {
+                                                                            const fieldDefinition = formStep[
+                                                                                step
+                                                                            ]?.fields?.find(
+                                                                                (field) => field.name === fieldName
+                                                                            );
+                                                                            const label =
+                                                                                fieldDefinition?.label || fieldName;
+                                                                            return (
+                                                                                <Grid item xs={6} sm={6} key={fieldIdx}>
+                                                                                    <Typography variant="body1">
+                                                                                        <strong>{label}:</strong>{" "}
+                                                                                        {fieldValue}
+                                                                                    </Typography>
+                                                                                </Grid>
+                                                                            );
+                                                                        }
+                                                                    )}
+                                                                </Grid>
+                                                            </Box>
+                                                        );
+                                                    }
+                                                )}
                                             </CardContent>
                                         </Card>
                                     </Grid>
@@ -316,12 +311,11 @@ export default function StepperPage() {
                             <Button
                                 style={{
                                     backgroundColor: currentStep !== 0 ? "#1976d2" : "",
-                                    color: currentStep !== 0 ? "white" : ""
+                                    color: currentStep !== 0 ? "white" : "",
                                 }}
-
                                 color="inherit"
                                 disabled={currentStep === 0}
-                                onClick={handleBack}
+                                onClick={handleStipperBack}
                                 sx={{ mr: 1 }}
                             >
                                 Back
@@ -330,7 +324,7 @@ export default function StepperPage() {
                             {isStepOptional(currentStep) && (
                                 <Button
                                     color="inherit"
-                                    onClick={handleSkip}
+                                    onClick={handleStipperSkip}
                                     sx={{ mr: 1 }}
                                     style={{ backgroundColor: "#1976d2", color: "white" }}
                                 >
@@ -340,7 +334,7 @@ export default function StepperPage() {
                             {currentStep < formStep.length - 1 && (
                                 <Button
                                     style={{ backgroundColor: "#1976d2", color: "white" }}
-                                    onClick={handleNext}
+                                    onClick={handleStipperNext}
                                 >
                                     Next
                                 </Button>
@@ -356,6 +350,6 @@ export default function StepperPage() {
                     </form>
                 )}
             </Box>
-        </Container >
+        </Container>
     );
 }

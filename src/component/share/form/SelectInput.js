@@ -40,7 +40,6 @@ const FormInputSelect = ({
                     </Select>
                 )}
             />
-
             {errors?.[name] && (
                 <p style={{ color: "#c22626" }}>{errors[name]?.message}</p>
 

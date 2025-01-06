@@ -35,14 +35,14 @@ body {
   -ms-border-radius: 4px !important;
   -o-border-radius: 4px !important;
 }
-.teliPhone .PhoneInputInput {
+.teliPhone .react-tel-input {
+  padding: 6px;
+}
+.teliPhone .react-tel-input input {
   border: none;
-  height: 53px !important;
-  border-radius: 4px !important;
-  -webkit-border-radius: 4px !important;
-  -moz-border-radius: 4px !important;
-  -ms-border-radius: 4px !important;
-  -o-border-radius: 4px !important;
+}
+.teliPhone .react-tel-input .flag-dropdown {
+  border: none;
 }
 .paymentMethodDiv {
   max-width: 885px !important;
