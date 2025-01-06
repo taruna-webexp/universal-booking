@@ -160,7 +160,7 @@ export default function StepperPage() {
         }
     };
 
-    //Optional steps
+    //Optional step
     const isStepOptional = (step) => step === 1;
 
     return (
@@ -211,10 +211,10 @@ export default function StepperPage() {
                                 <img
                                     src="/calendar.webp"
                                     alt="Calendar Icon"
-                                    className="w-6 h-6"
+                                    className="w-7 h-6"
                                 />
                                 <span className="font-medium text-sm md:text-base">
-                                    Add the booking to calendar
+                                    Schedule Booking in Calendar
                                 </span>
                             </Link>
                         </div>
